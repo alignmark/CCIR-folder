@@ -30,7 +30,7 @@ for place in 1:(length(S[1,:])-1)
         if x[com1,place]==1
             for com2 in 1:length(S[1,:])
                 if x[com2,place+1]==1
-                    @constraint(model, sum(c[com1,t]*D[t] for t in 1:P)>=sum(c[com2,t]*D[t] for t in 1:P)) # searches for two locations whose rankings differ by 1 and verifies that the location of higher ranking has a better evaluation score than that of the lower ranking location. 
+                    @constraint(model, sum(c[com1,t]*D[t] for t in 1:P)<=sum(c[com2,t]*D[t] for t in 1:P)) # searches for two locations whose rankings differ by 1 and verifies that the location of higher ranking has a better evaluation score than that of the lower ranking location. 
                 end
             end
         end
