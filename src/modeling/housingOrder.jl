@@ -3,10 +3,43 @@ using HiGHS
 using DataFrames
 using CSV
 
-# Assume data is already processed and loaded as DataFrames
+# Load the user-defined weights from user_weights.csv
+weights_df = DataFrame(CSV.File("data/processed/user_weights.csv"))
 
-# Load processed data (replace with actual paths)
-housing_data = DataFrame(CSV.File("data/processed/housing.csv"))
+# Convert the weights to a dictionary for easier access
+weights_dict = Dict(row.amenity => row.weight for row in eachrow(weights_df))
+
+# Define the list of amenities in the correct order
+amenity_names = [
+    "grocery_stores", "retail_centers", "public_schools", "private_schools", 
+    "public_libraries", "hospitals", "parks", "sports_facilities", 
+    "community_centers", "public_transit", "major_roadways", "bike_lanes", 
+    "restaurants_cafes", "cultural_institutions", "places_of_worship", 
+    "police_stations", "fire_stations", "childcare_facilities", 
+    "employment_centers", "senior_services"
+]
+
+# Extract the weights, skipping any missing amenities
+D = [get(weights_dict, amenity, 0.0) for amenity in amenity_names]
+
+# Print current directory and available files for debugging
+println("Current directory: ", pwd())
+println("Files in data/processed: ", readdir("data/processed/"))
+
+# Load housing data from rental and sale CSV files
+housing_rental_data = DataFrame(CSV.File("data/processed/housing_rental.csv"))
+housing_sale_data = DataFrame(CSV.File("data/processed/housing_sale.csv"))
+
+# Combine rental and sale data into one DataFrame
+housing_data = vcat(housing_rental_data, housing_sale_data)
+
+# Extract relevant housing information
+S = [housing_data.latitude housing_data.longitude]
+addresses = housing_data.address
+prices = housing_data.price
+sqft = housing_data.area
+beds = housing_data.beds
+baths = housing_data.baths  
 
 # List of amenities CSV files
 amenity_files = [
@@ -32,39 +65,16 @@ amenity_files = [
     "data/processed/senior_services.csv"
 ]
 
-# Load all amenities into a list of DataFrames
-amenities = [DataFrame(CSV.File(file)) for file in amenity_files]
-
-# Extract housing coordinates
-S = [housing_data[:latitude] housing_data[:longitude]]
-
-# Convert amenities into the correct format for the model
-A = [[amenity[:latitude] amenity[:longitude]] for amenity in amenities]
-
-# User-defined weights for each amenity type
-# Adjust these weights according to user preferences (example values)
-D = [
-    2.0,  # Grocery Stores
-    1.5,  # Retail Centers
-    2.5,  # Public Schools
-    2.0,  # Private Schools
-    1.8,  # Public Libraries
-    3.0,  # Hospitals
-    2.2,  # Parks
-    1.5,  # Sports Facilities
-    1.3,  # Community Centers
-    2.0,  # Public Transit
-    0.5,  # Major Roadways (might be a negative factor if too close)
-    1.2,  # Bike Lanes and Walking Paths
-    1.8,  # Restaurants and Cafes
-    1.6,  # Cultural Institutions
-    1.4,  # Places of Worship
-    1.0,  # Police Stations
-   -2.0,  # Fire Stations (negative weight as user prefers to avoid)
-    1.9,  # Childcare Facilities
-    2.3,  # Employment Centers
-    2.1   # Senior Services
-]
+# Load all amenities into a list of DataFrames, skipping empty files
+amenities = []
+for file in amenity_files
+    df = DataFrame(CSV.File(file))
+    if nrow(df) > 0 && (:latitude in names(df)) && (:longitude in names(df))
+        push!(amenities, [df.latitude df.longitude])
+    else
+        push!(amenities, [zeros(0, 2)])  # Add an empty array if no amenities are found
+    end
+end
 
 # Create the optimization model
 model = Model(HiGHS.Optimizer)
@@ -76,11 +86,13 @@ M = 10  # Number of locations to be selected
 # Ensure exactly M locations are selected
 @constraint(model, sum(x) == M)
 
-# Expression to calculate the shortest distance from each house to the nearest amenity of each type
-@expression(model, c[house=1:size(S, 1), type=1:length(A)], minimum(
-    abs(S[house, 1] - A[type][ind, 1]) + abs(S[house, 2] - A[type][ind, 2])
-    for ind in 1:size(A[type], 1)
-))
+# Expression to calculate the shortest Taxicab distance from each house to the nearest amenity of each type
+@expression(model, c[house=1:size(S, 1), type=1:length(A)], 
+    size(A[type], 1) > 0 ? minimum(
+        abs(S[house, 1] - A[type][ind, 1]) + abs(S[house, 2] - A[type][ind, 2])  # Taxicab distance
+        for ind in 1:size(A[type], 1)
+    ) : 1e6  # Large value if no amenities of this type are present
+)
 
 # Objective: Maximize user satisfaction based on proximity to preferred amenities
 @objective(model, Max, sum(D[t] * sum((1 / (c[k, t] + 1e-5)) * x[k] for k in 1:size(S, 1)) for t in 1:length(A)))
@@ -88,11 +100,18 @@ M = 10  # Number of locations to be selected
 # Optimize the model
 optimize!(model)
 
+# Extract selected locations using the JuMP function `value.`
+selected_locations = [k for k in 1:size(S, 1) if value(x[k]) > 0.5]
+
 # Output selected locations
-selected_locations = findall(x .> 0.5)
 println("Selected Housing Locations:")
 for k in selected_locations
-    println("Location $k: (latitude = ", S[k, 1], ", longitude = ", S[k, 2], ")")
+    println("Address: ", addresses[k])
+    println("Price: ", prices[k])
+    println("Sq Ft: ", sqft[k])
+    println("Beds: ", beds[k])
+    println("Baths: ", baths[k])
+    println("----------")
 end
 
 # Print the objective value

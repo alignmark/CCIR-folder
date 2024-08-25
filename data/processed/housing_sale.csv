@@ -1,0 +1,22 @@
+address,latitude,longitude,beds,baths,type,price,area
+"715 Don Mills Rd 708, Toronto",43.71054609999999,-79.333697,1,1,Condo Apt Apartment,429900,600-699
+"735 Don Mills Rd 1401, Toronto",43.7119156,-79.3342753,1,1,Condo Apt Apartment,439000,600-699
+"11 Thorncliffe Park Dr 705, Toronto",43.70402139999999,-79.3490836,1+1,1,Condo Apt Apartment,439000,700-799
+"725 Don Mills Rd 306, Toronto",43.7115958,-79.3333852,2+1,1,Condo Apt Apartment,449000,800-899
+"100 Leeward Glwy 1708, Toronto",43.7115446,-79.3292991,2,1,Condo Apt Apartment,459800,900-999
+"10 Gateway Blvd 614, Toronto",43.7098813,-79.3326187,1+1,1,Condo Apt Apartment,459900,900-999
+"160 Vanderhoof Ave 808, Toronto",43.7143527,-79.3528759,1,1,Condo Apt Apartment,490000,0-499
+"725 Don Mills Rd 1206, Toronto",43.7115958,-79.3333852,2,1,Condo Apt Apartment,495000,900-999
+"21 Overlea Blvd 1004, Toronto",43.7039173,-79.3491307,2,1,Condo Apt Apartment,499000,900-999
+"715 Don Mills Rd 2002, Toronto",43.71054609999999,-79.333697,2,1,Condo Apt Apartment,499000,800-899
+"735 Don Mills Rd 1603, Toronto",43.7115813,-79.33436619999999,2,1,Condo Apt Apartment,525000,900-999
+"100 Leeward Glwy 1801, Toronto",43.7115446,-79.3292991,2+1,2,Condo Apt Apartment,529000,800-899
+"21 Overlea Blvd 511, Toronto",43.7039173,-79.3491307,2,1,Condo Apt Apartment,555000,900-999
+"21 Overlea Blvd 1706, Toronto",43.7039173,-79.3491307,2,2,Condo Apt Apartment,579000,900-999
+"25 Sunny Glen Way 312, Toronto",43.7101014,-79.3302884,3,2,Condo Townhouse 2-Storey,599900,1000-1199
+"383 O'Connor Dr, Toronto",43.6957716,-79.3376884,2+2,2,Detached Bungalow-Raised,1088000,
+"20B Leaside Park Dr B, Toronto",43.7032721,-79.3500454,3,3,Condo Townhouse 3-Storey,1089000,1800-1999
+"461 Donlands Ave, Toronto",43.69604349999999,-79.34453169999999,3+1,3,Detached 2-Storey,1299000,
+"44 Parkview Hill Cres, Toronto",43.7039009,-79.3262678,3+1,2,Detached 2-Storey,1620000,
+"65 Derwyn Rd, Toronto",43.6962474,-79.3344072,4,2,Detached 2-Storey,2299000,2000-2500
+"450 O'Connor Dr, Toronto",43.6975775,-79.3317649,5,4,Detached 2-Storey,3499000,5000+

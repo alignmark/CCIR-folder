@@ -1,0 +1,12 @@
+address,latitude,longitude,beds,baths,type,price,area
+"1 Leaside Park Dr 314, Toronto",43.7026143,-79.35150519999999,1,1,Condo Apt Apartment,2350,700-799
+"160 Vanderhoof Ave 301, Toronto",43.7143527,-79.3528759,1+1,1,Condo Apt Apartment,2550,600-699
+"21 Overlea Blvd #2010, Toronto",43.7039173,-79.3491307,1+1,1,Condo Apt Apartment,2700,800-899
+"725 Don Mills Rd 706, Toronto",43.7115958,-79.3333852,2,1,Condo Apt Apartment,2900,800-899
+"35 Brian Peck Cres 910, Toronto",43.7146943,-79.3540828,2,2,Condo Apt Apartment,2950,700-799
+"35 Brian Peck Cres 723, Toronto",43.7146943,-79.3540828,2,2,Condo Apt Apartment,2995,800-899
+"35 Brian Peck Cres 1405, Toronto",43.7146943,-79.3540828,2+1,2,Condo Apt Apartment,3000,800-899
+"35 Brian Peck Cres Lph23, Toronto",43.7146943,-79.3540828,2,2,Condo Apt Apartment,3100,800-899
+"11 Thorncliffe Pk Dr 914, Toronto",43.70402139999999,-79.3490836,2,2,Condo Apt Apartment,3200,900-999
+"6 Brian Peck Cres 101, Toronto",43.7140637,-79.3547603,2,2,Condo Townhouse Stacked Townhse,3400,900-999
+"37 Wolverton Ave, Toronto",43.69563429999999,-79.3453941,2+1,2,Detached Bungalow,3600,
