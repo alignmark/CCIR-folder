@@ -25,12 +25,13 @@ To simplify the process of selecting and weighting multiple amenities, we introd
 Setup:
 --------------------------------------------------------------------------------------------------
 1. Clone the Repository
-    git clone <your_own_repository_url>
+    git clone https://github.com/alignmark/CCIR-folder.git (Change it to your own github repository URL)
     cd CCIR-folder
 
 2. Set Up Python Environment
     python3 -m venv env
-    source env/bin/activate
+    source env/bin/activate (mac)
+    env\Scripts\activate (windows) 
     pip install -r requirements.txt
 
 3. Install Streamlit for interactive UI
