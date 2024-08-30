@@ -27,11 +27,12 @@ println("Current directory: ", pwd())
 println("Files in data/processed: ", readdir("data/processed/"))
 
 # Load housing data from rental and sale CSV files
-housing_rental_data = DataFrame(CSV.File("data/processed/housing_rental.csv"))
+# housing_rental_data = DataFrame(CSV.File("data/processed/housing_rental.csv"))
 housing_sale_data = DataFrame(CSV.File("data/processed/housing_sale.csv"))
 
 # Combine rental and sale data into one DataFrame
-housing_data = vcat(housing_rental_data, housing_sale_data)
+housing_data = vcat(housing_sale_data)
+#housing_rental_data, 
 
 # Extract relevant housing information
 S = [housing_data.latitude housing_data.longitude]
